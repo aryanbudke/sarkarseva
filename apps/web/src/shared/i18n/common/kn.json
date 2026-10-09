@@ -1,0 +1,9 @@
+{
+  "nav": { "documents": "ದಾಖಲೆ ಪರಿಶೀಲಕ" },
+  "action": {
+    "openOfficialPortal": "ಅಧಿಕೃತ ಪೋರ್ಟಲ್‌ಗೆ ಹೋಗಿ",
+    "downloadChecklist": "ಚೆಕ್‌ಲಿಸ್ಟ್ ಡೌನ್‌ಲೋಡ್ ಮಾಡಿ"
+  },
+  "badge": { "free": "ಉಚಿತ", "online": "ಆನ್‌ಲೈನ್", "atCentre": "ಕೇಂದ್ರದಲ್ಲಿ" },
+  "language": { "en": "English", "kn": "ಕನ್ನಡ", "hi": "हिन्दी" }
+}

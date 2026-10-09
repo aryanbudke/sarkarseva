@@ -2,10 +2,12 @@
 
 Modern glassmorphism that stays readable for a 58-year-old in sunlight on a ₹7,000 phone. Glass is the *surface*; legibility is the *rule*.
 
+> **Updated by MIG-02 (docs/21):** the light theme is now the calm "paper" look carried over from SarkarSeva: warm off-white, solid surfaces, no mesh, no blur, Fraunces headings and DM Sans body. Glass and the mesh remain in the dark theme. The source of truth for values is `apps/web/src/shared/ui/tokens.css`; `shared/ui/__tests__/contrast.test.ts` fails if a light-theme text colour drops below 4.5:1.
+
 ## Principles
 
 1. **Glass frames, solid reads.** Text sits on panels opaque enough to pass contrast at the worst point of the background. Decorative glass can be thinner.
-2. **One accent at a time.** The saffron-to-indigo gradient appears on the single primary action per screen.
+2. **One accent at a time.** The single primary action per screen gets the accent: solid saffron `#FF6B00` with dark text (`--on-accent`, 6:1) in light, the saffron-to-indigo gradient in dark. Saffron is never used for text, borders or focus in light (2.7:1 on the background); saffron-toned text uses `--accent-ink` `#A04100` (6.1:1).
 3. **Status never by colour alone.** Every verdict has icon + word + colour.
 4. **Big and calm.** 17 px body minimum, 48 px targets, generous spacing.
 5. **Degrade gracefully.** Low-power mode and "Reduce transparency" swap glass for solid tinted surfaces with no blur and no moving blobs.
@@ -31,8 +33,12 @@ Modern glassmorphism that stays readable for a 58-year-old in sunlight on a ₹7
   --text-2: #CBD5E1;
   --text-3: #94A3B8;
 
+  --glass-blur: 20px;
+
   --accent-from: #F59E0B;
   --accent-to:   #6366F1;
+  --accent-ink:  #FBBF24;   /* added in MIG-02; contrast to verify in FE-02 */
+  --on-accent:   #070B1A;   /* added in MIG-02; check on the indigo end of the gradient in FE-02 */
   --focus: #FDE68A;
 
   --ok:    #34D399;  /* Eligible */
@@ -43,36 +49,44 @@ Modern glassmorphism that stays readable for a 58-year-old in sunlight on a ₹7
 }
 ```
 
-### Colour — light theme (default in daytime / system light; better outdoors)
+### Colour — light theme (default; calm paper look from SarkarSeva, better outdoors)
+
+Solid surfaces: the `--glass*` names are kept so components work in both themes, but in light they are opaque and `--glass-blur` is 0. The mesh colours equal the background, so `MeshBackground` is invisible.
 
 ```css
-:root[data-theme="light"] {
-  --bg-base: #EEF2F7;
-  --mesh-1: #A5B4FC;
-  --mesh-2: #99F6E4;
-  --mesh-3: #FDE68A;
+:root, :root[data-theme="light"] {
+  --bg-base: #FAF9F5;                       /* SarkarSeva background */
+  --mesh-1: #FAF9F5; --mesh-2: #FAF9F5; --mesh-3: #FAF9F5;
 
-  --glass-thin:   rgba(255,255,255,0.40);
-  --glass:        rgba(255,255,255,0.58);
-  --glass-strong: rgba(255,255,255,0.82);
-  --glass-border: rgba(255,255,255,0.75);
-  --glass-highlight: rgba(255,255,255,0.9);
+  --glass-thin:   #F5F4F0;                  /* sunken areas, secondary buttons */
+  --glass:        #FFFFFF;                  /* cards */
+  --glass-strong: #FFFFFF;                  /* sheets */
+  --glass-border: #E3E2DF;
+  --glass-highlight: #FFFFFF;
+  --glass-blur: 0px;
 
-  --text-1: #0F172A;
-  --text-2: #334155;
-  --text-3: #64748B;
+  --text-1: #1B1C1A;   /* 16.2:1 on bg */
+  --text-2: #47464C;   /*  8.9:1 */
+  --text-3: #5B6472;   /*  5.7:1; ≥ 4.5 on every surface */
+
+  --accent-from: #FF6B00;  --accent-to: #FF6B00;   /* fill only */
+  --accent-ink:  #A04100;  /* saffron-toned text and links */
+  --on-accent:   #1B1C1A;  /* text on the saffron button */
+  --focus:       #1A1A2E;  /* 3 px ring, 16:1 */
 
   --ok: #047857; --maybe: #B45309; --no: #475569; --info: #1D4ED8; --danger: #B91C1C;
 }
 ```
+
+Not carried over from SarkarSeva: the India-flag green `#138808` (it would compete with the Eligible green and fails 4.5:1), white text on saffron (2.9:1), its 50-token Material palette, and Google Fonts loaded by URL (breaks offline).
 
 ### Glass recipe
 
 ```css
 .glass {
   background: var(--glass);
-  backdrop-filter: blur(20px) saturate(160%);
-  -webkit-backdrop-filter: blur(20px) saturate(160%);
+  backdrop-filter: blur(var(--glass-blur)) saturate(160%);
+  -webkit-backdrop-filter: blur(var(--glass-blur)) saturate(160%);
   border: 1px solid var(--glass-border);
   box-shadow:
     inset 0 1px 0 var(--glass-highlight),
@@ -86,7 +100,7 @@ Modern glassmorphism that stays readable for a 58-year-old in sunlight on a ₹7
 
 ### Background
 
-Fixed full-screen layer: `--bg-base` plus three large blurred radial blobs (`--mesh-1..3`) drifting slowly (60–90 s loops). Add a 3 % noise texture (tiny PNG) to avoid banding. In low-power mode: static gradient, no animation.
+Fixed full-screen layer: `--bg-base` plus three large blurred radial blobs (`--mesh-1..3`) drifting slowly (60–90 s loops). Add a 3 % noise texture (tiny PNG) to avoid banding. In low-power mode: static gradient, no animation. Dark theme only; in light the mesh colours equal `--bg-base`.
 
 ### Type
 
@@ -100,7 +114,7 @@ Fixed full-screen layer: `--bg-base` plus three large blurred radial blobs (`--m
 | `small` | 15 / 22 | 500 | Meta, chips |
 | `micro` | 13 / 18 | 600 | Badges, uppercase labels |
 
-Font stack: `"Plus Jakarta Sans", "Noto Sans Kannada", "Noto Sans Devanagari", system-ui, sans-serif`. Indic scripts need ~10 % more line-height; set `:lang(kn), :lang(hi) { line-height: 1.6 }`.
+Fonts (self-hosted via `@fontsource-variable/*`): headings `display`, `h1`, `h2` use `font-display` = `"Fraunces Variable"`; everything else uses `font-sans` = `"DM Sans Variable"`. Both stacks fall back to `"Noto Sans Kannada Variable"`, `"Noto Sans Devanagari Variable"`, then system fonts, so Kannada and Hindi always render in Noto. Tailwind's default palette and type scale are removed in `@theme`; only these tokens exist. Indic scripts need ~10 % more line-height; set `:lang(kn), :lang(hi) { line-height: 1.6 }`.
 
 ### Space, radius, elevation
 

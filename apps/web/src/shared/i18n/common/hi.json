@@ -1,0 +1,9 @@
+{
+  "nav": { "documents": "दस्तावेज़ चेकर" },
+  "action": {
+    "openOfficialPortal": "आधिकारिक पोर्टल पर जाएं",
+    "downloadChecklist": "चेकलिस्ट डाउनलोड करें"
+  },
+  "badge": { "free": "निःशुल्क", "online": "ऑनलाइन", "atCentre": "केंद्र पर" },
+  "language": { "en": "English", "kn": "ಕನ್ನಡ", "hi": "हिन्दी" }
+}

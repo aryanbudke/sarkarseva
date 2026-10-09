@@ -27,7 +27,7 @@ Capacitor wraps a **static** web build. Next.js server routes can't ship inside 
 | QR | `qrcode` | benefit card (P1) |
 | Image export | `html-to-image` | benefit card (P1) |
 | Mobile | Capacitor (`@capacitor/core`, `android`, `share`, `haptics`, `status-bar`, `local-notifications` for P2) | |
-| Fonts | Plus Jakarta Sans, Noto Sans Kannada, Noto Sans Devanagari | self-host via `@fontsource/*` so they work offline |
+| Fonts | Fraunces, DM Sans, Noto Sans Kannada, Noto Sans Devanagari | self-host via `@fontsource-variable/*` so they work offline; Fraunces + DM Sans replace Plus Jakarta Sans to keep the SarkarSeva look (MIG-02, docs/21) |
 
 ### apps/api
 

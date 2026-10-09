@@ -1,0 +1,12 @@
+{
+  "nav": { "documents": "Document Checker" },
+  "action": {
+    "openOfficialPortal": "Go to Official Portal",
+    "downloadChecklist": "Download checklist"
+  },
+  "badge": { "free": "Free", "online": "Online", "atCentre": "At Center" },
+  "language": { "en": "English", "kn": "ಕನ್ನಡ", "hi": "हिन्दी" },
+  "disclaimer": {
+    "notGovernment": "This app is not run by the government. Always check details with the official office or website before you apply."
+  }
+}

@@ -1,0 +1,143 @@
+/* Design tokens: docs/05-design-system.md. Components use the Tailwind names in @theme, never raw values. */
+
+/* Light: calm paper look from SarkarSeva (docs/21). Solid surfaces, no mesh, no blur. */
+:root,
+:root[data-theme="light"] {
+  --bg-base: #faf9f5;
+  --mesh-1: #faf9f5;
+  --mesh-2: #faf9f5;
+  --mesh-3: #faf9f5;
+
+  --glass-thin: #f5f4f0;
+  --glass: #ffffff;
+  --glass-strong: #ffffff;
+  --glass-border: #e3e2df;
+  --glass-highlight: #ffffff;
+  --glass-blur: 0px;
+
+  --text-1: #1b1c1a;
+  --text-2: #47464c;
+  --text-3: #5b6472;
+
+  /* Saffron fails contrast as text (2.7:1), so it is a fill only; text in saffron uses --accent-ink. */
+  --accent-from: #ff6b00;
+  --accent-to: #ff6b00;
+  --accent-ink: #a04100;
+  --on-accent: #1b1c1a;
+  --focus: #1a1a2e;
+
+  --ok: #047857;
+  --maybe: #b45309;
+  --no: #475569;
+  --info: #1d4ed8;
+  --danger: #b91c1c;
+}
+
+/* Dark: unchanged from docs/05 ("Frosted Saathi"). --on-accent and --accent-ink still need a contrast check (FE-02). */
+:root[data-theme="dark"] {
+  --bg-base: #070b1a;
+  --mesh-1: #4f46e5;
+  --mesh-2: #0ea5a4;
+  --mesh-3: #f59e0b;
+
+  --glass-thin: rgba(255, 255, 255, 0.06);
+  --glass: rgba(255, 255, 255, 0.1);
+  --glass-strong: rgba(15, 23, 42, 0.62);
+  --glass-border: rgba(255, 255, 255, 0.14);
+  --glass-highlight: rgba(255, 255, 255, 0.18);
+  --glass-blur: 20px;
+
+  --text-1: #f8fafc;
+  --text-2: #cbd5e1;
+  --text-3: #94a3b8;
+
+  --accent-from: #f59e0b;
+  --accent-to: #6366f1;
+  --accent-ink: #fbbf24;
+  --on-accent: #070b1a;
+  --focus: #fde68a;
+
+  --ok: #34d399;
+  --maybe: #fbbf24;
+  --no: #94a3b8;
+  --info: #60a5fa;
+  --danger: #f87171;
+}
+
+@theme inline {
+  /* Drop Tailwind's default palette and type scale so only tokens can be used. */
+  --color-*: initial;
+  --text-*: initial;
+
+  --color-base: var(--bg-base);
+  --color-surface-thin: var(--glass-thin);
+  --color-surface: var(--glass);
+  --color-surface-strong: var(--glass-strong);
+  --color-border: var(--glass-border);
+  --color-ink: var(--text-1);
+  --color-ink-2: var(--text-2);
+  --color-ink-3: var(--text-3);
+  --color-accent: var(--accent-from);
+  --color-accent-ink: var(--accent-ink);
+  --color-on-accent: var(--on-accent);
+  --color-focus: var(--focus);
+  --color-ok: var(--ok);
+  --color-maybe: var(--maybe);
+  --color-no: var(--no);
+  --color-info: var(--info);
+  --color-danger: var(--danger);
+
+  --font-display: "Fraunces Variable", "Noto Sans Kannada Variable", "Noto Sans Devanagari Variable", Georgia, serif;
+  --font-sans: "DM Sans Variable", "Noto Sans Kannada Variable", "Noto Sans Devanagari Variable", system-ui, sans-serif;
+
+  --text-display: 2.5rem;
+  --text-display--line-height: 2.75rem;
+  --text-display--font-weight: 800;
+  --text-h1: 2rem;
+  --text-h1--line-height: 2.375rem;
+  --text-h1--font-weight: 700;
+  --text-h2: 1.5rem;
+  --text-h2--line-height: 1.875rem;
+  --text-h2--font-weight: 700;
+  --text-h3: 1.25rem;
+  --text-h3--line-height: 1.625rem;
+  --text-h3--font-weight: 600;
+  --text-body: 1.0625rem;
+  --text-body--line-height: 1.625rem;
+  --text-small: 0.9375rem;
+  --text-small--line-height: 1.375rem;
+  --text-small--font-weight: 500;
+  --text-micro: 0.8125rem;
+  --text-micro--line-height: 1.125rem;
+  --text-micro--font-weight: 600;
+
+  --radius-chip: 999px;
+  --radius-control: 16px;
+  --radius-card: 24px;
+  --radius-sheet: 28px;
+}
+
+@layer base {
+  html {
+    background-color: var(--bg-base);
+    color: var(--text-1);
+    font-family: var(--font-sans);
+    font-size: 100%;
+  }
+
+  body {
+    font-size: 1.0625rem;
+    line-height: 1.625rem;
+  }
+
+  :focus-visible {
+    outline: 3px solid var(--focus);
+    outline-offset: 2px;
+  }
+}
+
+/* Unlayered on purpose: Indic scripts need the taller line-height even where a text-* utility sets one. */
+:lang(kn),
+:lang(hi) {
+  line-height: 1.6;
+}
