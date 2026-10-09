@@ -32,11 +32,40 @@ export interface Scheme {
   maxAge?: number;
   incomeLimit?: number;
   occupationCriteria?: string[];
+  sectorCriteria?: Array<'Urban' | 'Rural'>;
   benefits: string[];
+  officialUrl?: string;
+  documents?: string[];
+  applicationSteps?: string[];
+}
+
+export interface SchemeProfile {
+  age: number;
+  gender: string;
+  state: string;
+  sector: 'Urban' | 'Rural';
+  selectedCategory: string;
+  familyIncome: number;
+  occupation: string;
+}
+
+export interface MatchCriterion {
+  key: string;
+  label: string;
+  status: 'match' | 'mismatch' | 'preference' | 'verify';
+  weight: number;
+  detail: string;
+}
+
+export interface SchemeMatch extends Scheme {
+  matchPercentage: number;
+  confidence: 'High' | 'Medium' | 'Low';
+  criteria: MatchCriterion[];
+  matchedCriteria: number;
+  failedCriteria: number;
 }
 
 export interface ChatMessage {
   role: 'user' | 'model';
   text: string;
 }
-

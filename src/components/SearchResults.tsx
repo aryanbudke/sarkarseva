@@ -42,7 +42,7 @@ export default function SearchResults({
   // Trigger service click
   const handleServiceClick = (serviceId: string) => {
     setSelectedServiceId(serviceId);
-    setCurrentTab('services');
+    setCurrentTab('service-guide');
   };
 
   // Extract query filter results

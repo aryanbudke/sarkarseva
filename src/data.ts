@@ -356,10 +356,11 @@ export const TRANSLATIONS: Record<string, Record<string, string>> = {
 };
 
 import { NEW_SERVICES } from './services_data';
+import { SCHEME_GUIDANCE } from './scheme_guidance';
 
 export const SERVICES: ServiceDetails[] = NEW_SERVICES;
 
-export const SCHEMES: Scheme[] = [
+const BASE_SCHEMES: Scheme[] = [
   {
     id: 'pm-awas-yojana',
     name: 'PM Awas Yojana (Urban)',
@@ -543,3 +544,8 @@ export const SCHEMES: Scheme[] = [
     benefits: ['Access to deeply subsidized green chemical & organic fertilizers', 'Free Soil Health Cards with specialized district recommendations', 'Higher agriculture production yields through balanced soil treatments']
   }
 ];
+
+export const SCHEMES: Scheme[] = BASE_SCHEMES.map((scheme) => ({
+  ...scheme,
+  ...SCHEME_GUIDANCE[scheme.id],
+}));

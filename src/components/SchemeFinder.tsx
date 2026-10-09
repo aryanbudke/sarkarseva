@@ -1,8 +1,9 @@
 import React from 'react';
 import { motion, AnimatePresence } from 'motion/react';
 import { SCHEMES } from '../data';
-import { Scheme } from '../types';
-import { Check, ArrowRight, ArrowLeft, Info, Calendar, Coins, UserCheck, MapPin } from 'lucide-react';
+import { SchemeMatch } from '../types';
+import { rankSchemes } from '../lib/schemeMatcher';
+import { Check, ArrowRight, ArrowLeft, Info, UserCheck, ShieldCheck, ListChecks, AlertTriangle } from 'lucide-react';
 
 interface SchemeFinderProps {
   language: string;
@@ -24,7 +25,7 @@ export default function SchemeFinder({ language, t }: SchemeFinderProps) {
 
   // Iframe-friendly custom modal dialog states
   const [demoSuccessModal, setDemoSuccessModal] = React.useState<{ matches: number } | null>(null);
-  const [activeSchemeDetail, setActiveSchemeDetail] = React.useState<Scheme | null>(null);
+  const [activeSchemeDetail, setActiveSchemeDetail] = React.useState<SchemeMatch | null>(null);
 
   // Related lists for inputs
   const statesList = ['All India', 'Delhi', 'Maharashtra', 'Karnataka', 'Tamil Nadu', 'Uttar Pradesh', 'West Bengal', 'Punjab', 'Kerala'];
@@ -60,66 +61,18 @@ export default function SchemeFinder({ language, t }: SchemeFinderProps) {
     setOccupation('Student');
   };
 
-  // Live matching calculations based on selected parameters
+  // Deterministic, explainable matching based on the declared profile.
   const matchedSchemes = React.useMemo(() => {
-    return SCHEMES.map((scheme) => {
-      let score = 65; // High-fidelity baseline score
-
-      // 1. Sector matching
-      if (selectedCategory !== 'all' && scheme.category !== selectedCategory) {
-        score -= 25;
-      } else {
-        score += 10;
-      }
-
-      // 2. Gender criteria check
-      if (scheme.genderCriteria && scheme.genderCriteria !== 'all') {
-        if (scheme.genderCriteria === gender) {
-          score += 15;
-        } else {
-          score -= 35;
-        }
-      }
-
-      // 3. Age boundaries matching
-      if (scheme.minAge && age < scheme.minAge) score -= 20;
-      if (scheme.maxAge && age > scheme.maxAge) score -= 15;
-      if (scheme.minAge && age >= scheme.minAge && scheme.maxAge && age <= scheme.maxAge) {
-        score += 10;
-      }
-
-      // 4. Income cap matching
-      if (scheme.incomeLimit) {
-        if (familyIncome <= scheme.incomeLimit) {
-          score += 15;
-        } else {
-          // Progressively penalize higher incomes
-          const excessRatio = familyIncome / scheme.incomeLimit;
-          score -= Math.min(40, Math.floor(20 * excessRatio));
-        }
-      }
-
-      // 5. Occupation matching
-      if (scheme.occupationCriteria) {
-        const matchesOccupation = scheme.occupationCriteria.some(
-          occ => occ.toLowerCase() === occupation.toLowerCase()
-        );
-        if (matchesOccupation) {
-          score += 15;
-        } else {
-          score -= 10;
-        }
-      }
-
-      // Clamp between 15% and 98%
-      const matchPercentage = Math.max(15, Math.min(98, score));
-
-      return {
-        ...scheme,
-        matchPercentage
-      };
-    }).sort((a, b) => b.matchPercentage - a.matchPercentage);
-  }, [age, gender, selectedCategory, familyIncome, occupation, state]);
+    return rankSchemes(SCHEMES, {
+      age,
+      gender,
+      state,
+      sector,
+      selectedCategory,
+      familyIncome,
+      occupation,
+    });
+  }, [age, gender, selectedCategory, familyIncome, occupation, state, sector]);
 
   const steps = [
     { title: 'Demographics', desc: 'Age & Gender' },
@@ -473,6 +426,21 @@ export default function SchemeFinder({ language, t }: SchemeFinderProps) {
           </div>
         </div>
 
+        <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 mb-6">
+          <div className="bg-white border border-[#FFF3E8] rounded-xl p-4 flex items-start gap-3">
+            <ListChecks className="w-5 h-5 text-[#FF6B00] shrink-0" />
+            <div><p className="text-xs font-bold text-[#1A1A2E]">Explainable rules</p><p className="text-[10px] text-[#7A7A9A]">Every score exposes passed and failed criteria.</p></div>
+          </div>
+          <div className="bg-white border border-[#FFF3E8] rounded-xl p-4 flex items-start gap-3">
+            <ShieldCheck className="w-5 h-5 text-[#138808] shrink-0" />
+            <div><p className="text-xs font-bold text-[#1A1A2E]">Hard-fail protection</p><p className="text-[10px] text-[#7A7A9A]">A failed mandatory rule cannot be shown as likely eligible.</p></div>
+          </div>
+          <div className="bg-white border border-[#FFF3E8] rounded-xl p-4 flex items-start gap-3">
+            <AlertTriangle className="w-5 h-5 text-[#1657B5] shrink-0" />
+            <div><p className="text-xs font-bold text-[#1A1A2E]">Pre-screening only</p><p className="text-[10px] text-[#7A7A9A]">Final approval always comes from the official authority.</p></div>
+          </div>
+        </div>
+
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
           {matchedSchemes.map((scheme) => {
             const isHigh = scheme.matchPercentage >= 75;
@@ -528,7 +496,7 @@ export default function SchemeFinder({ language, t }: SchemeFinderProps) {
                     }`}>
                       {scheme.matchPercentage}%
                     </div>
-                    <span className="font-sans text-[10px] text-[#7A7A9A] font-semibold">Eligibility Threshold</span>
+                    <span className="font-sans text-[10px] text-[#7A7A9A] font-semibold">{scheme.confidence} evidence confidence</span>
                   </div>
 
                   <button
@@ -611,38 +579,17 @@ export default function SchemeFinder({ language, t }: SchemeFinderProps) {
                 <div className="flex flex-col gap-3">
                   <h4 className="font-sans text-[11px] font-bold text-gray-400 tracking-wider">ELIGIBILITY ANALYSIS</h4>
                   <div className="border border-gray-100 rounded-xl p-4 flex flex-col gap-2">
-                    {/* dynamic list of matches based on scheme requirements */}
-                    {activeSchemeDetail.minAge ? (
-                       <div className="flex items-center gap-2 font-sans text-xs text-gray-700">
-                         {age >= activeSchemeDetail.minAge 
-                           ? <span className="w-4 h-4 shrink-0 rounded-full bg-green-50 text-green-600 flex items-center justify-center text-[10px]">✓</span> 
-                           : <span className="w-4 h-4 shrink-0 rounded-full bg-red-50 text-red-600 flex items-center justify-center text-[10px]">✕</span>}
-                         <span>Age {age} {age >= activeSchemeDetail.minAge ? `meets` : `fails`} requirement {activeSchemeDetail.minAge}+</span>
-                       </div>
-                    ) : null}
-                    
-                    {activeSchemeDetail.genderCriteria && activeSchemeDetail.genderCriteria !== 'all' ? (
-                       <div className="flex items-center gap-2 font-sans text-xs text-gray-700">
-                         {gender === activeSchemeDetail.genderCriteria 
-                           ? <span className="w-4 h-4 shrink-0 rounded-full bg-green-50 text-green-600 flex items-center justify-center text-[10px]">✓</span> 
-                           : <span className="w-4 h-4 shrink-0 rounded-full bg-red-50 text-red-600 flex items-center justify-center text-[10px]">✕</span>}
-                         <span>{gender.charAt(0).toUpperCase() + gender.slice(1)} profile {gender === activeSchemeDetail.genderCriteria ? 'matches' : 'does not match'} scheme</span>
-                       </div>
-                    ) : null}
-
-                    {activeSchemeDetail.incomeLimit ? (
-                       <div className="flex items-center gap-2 font-sans text-xs text-gray-700">
-                         {familyIncome <= activeSchemeDetail.incomeLimit 
-                           ? <span className="w-4 h-4 shrink-0 rounded-full bg-green-50 text-green-600 flex items-center justify-center text-[10px]">✓</span> 
-                           : <span className="w-4 h-4 shrink-0 rounded-full bg-red-50 text-red-600 flex items-center justify-center text-[10px]">✕</span>}
-                         <span>Income ₹{(familyIncome/100000).toFixed(1)}L {familyIncome <= activeSchemeDetail.incomeLimit ? 'within' : 'exceeds'} ₹{(activeSchemeDetail.incomeLimit/100000).toFixed(1)}L limit</span>
-                       </div>
-                    ) : null}
-
-                    <div className="flex items-center gap-2 font-sans text-xs text-gray-700">
-                      <span className="w-4 h-4 shrink-0 rounded-full bg-gray-50 text-gray-500 flex items-center justify-center text-[10px] font-bold">?</span>
-                      <span>State: Expected to be available in {state}</span>
-                    </div>
+                    {activeSchemeDetail.criteria.map((criterion) => (
+                      <div key={criterion.key} className="flex items-start gap-2 font-sans text-xs text-gray-700">
+                        <span className={`w-4 h-4 mt-0.5 shrink-0 rounded-full flex items-center justify-center text-[10px] ${
+                          criterion.status === 'mismatch' ? 'bg-red-50 text-red-600' :
+                          criterion.status === 'verify' ? 'bg-blue-50 text-blue-600' : 'bg-green-50 text-green-600'
+                        }`}>
+                          {criterion.status === 'mismatch' ? '✕' : criterion.status === 'verify' ? '?' : '✓'}
+                        </span>
+                        <span><strong>{criterion.label}:</strong> {criterion.detail}</span>
+                      </div>
+                    ))}
 
                     <div className="mt-2 bg-green-50/50 border border-green-100 rounded-lg p-2.5 flex items-center justify-center">
                       <span className="font-sans text-xs font-semibold text-green-700">
@@ -667,17 +614,13 @@ export default function SchemeFinder({ language, t }: SchemeFinderProps) {
 
                 {/* REQUIRED DOCUMENTS */}
                 <div className="flex flex-col gap-3">
-                  <h4 className="font-sans text-[11px] font-bold text-gray-400 tracking-wider">REQUIRED DOCUMENTS ({Math.max(3, activeSchemeDetail.benefits.length)})</h4>
+                  <h4 className="font-sans text-[11px] font-bold text-gray-400 tracking-wider">DOCUMENTS TO PREPARE</h4>
                   <div className="flex flex-col gap-1.5 pl-1">
-                    <div className="flex items-center gap-2 font-sans text-sm text-gray-600">
-                      <span className="w-1.5 h-1.5 rounded-full bg-gray-400"></span> Aadhaar Card
-                    </div>
-                    <div className="flex items-center gap-2 font-sans text-sm text-gray-600">
-                      <span className="w-1.5 h-1.5 rounded-full bg-gray-400"></span> Bank Passbook (Aadhaar-linked)
-                    </div>
-                    <div className="flex items-center gap-2 font-sans text-sm text-gray-600">
-                      <span className="w-1.5 h-1.5 rounded-full bg-gray-400"></span> Scheme Specific Form
-                    </div>
+                    {activeSchemeDetail.documents?.map(document => (
+                      <div key={document} className="flex items-center gap-2 font-sans text-sm text-gray-600">
+                        <span className="w-1.5 h-1.5 rounded-full bg-gray-400"></span> {document}
+                      </div>
+                    ))}
                   </div>
                 </div>
 
@@ -685,11 +628,11 @@ export default function SchemeFinder({ language, t }: SchemeFinderProps) {
                 <div className="flex flex-col gap-3">
                   <h4 className="font-sans text-[11px] font-bold text-gray-400 tracking-wider">HOW TO APPLY</h4>
                   <div className="flex flex-col gap-1.5 font-sans text-sm text-gray-600 pl-1">
-                    <div>1. Visit official authorized department</div>
-                    <div>2. Fill the prescribed scheme application form</div>
-                    <div>3. Submit along with required documents</div>
+                    {activeSchemeDetail.applicationSteps?.map((step, index) => (
+                      <div key={step}>{index + 1}. {step}</div>
+                    ))}
                   </div>
-                  <a href="#" className="font-sans text-sm font-semibold text-[#1657B5] hover:underline flex items-center gap-1 mt-1 w-max">
+                  <a href={activeSchemeDetail.officialUrl} target="_blank" rel="noreferrer" className="font-sans text-sm font-semibold text-[#1657B5] hover:underline flex items-center gap-1 mt-1 w-max">
                     Official Portal ↗
                   </a>
                 </div>
@@ -706,11 +649,14 @@ export default function SchemeFinder({ language, t }: SchemeFinderProps) {
                     {bookmarkedSchemes[activeSchemeDetail.id] ? "★ Watching" : "☆ Watch"}
                   </span>
                 </button>
-                <button
+                <a
+                  href={activeSchemeDetail.officialUrl}
+                  target="_blank"
+                  rel="noreferrer"
                   className="bg-[#FF6B00] hover:bg-[#E05600] text-white px-5 py-2 rounded-lg font-sans text-sm font-semibold cursor-pointer border-none transition-colors"
                 >
                   Apply Now →
-                </button>
+                </a>
                 <button
                   onClick={() => setActiveSchemeDetail(null)}
                   className="px-4 py-2 rounded-lg font-sans text-sm font-semibold cursor-pointer border border-transparent text-gray-500 hover:bg-gray-50 transition-colors bg-white"

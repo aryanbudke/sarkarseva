@@ -24,7 +24,7 @@ interface ApplicationItem {
 export default function App() {
   const [currentTab, setCurrentTab] = React.useState<'home' | 'search' | 'services' | 'service-guide' | 'documents' | 'schemes'>('home');
   const [searchQuery, setSearchQuery] = React.useState('Aadhaar');
-  const [selectedServiceId, setSelectedServiceId] = React.useState('driving-licence');
+  const [selectedServiceId, setSelectedServiceId] = React.useState('permanent-driving-licence');
   const [categoryFilter, setCategoryFilter] = React.useState('All');
   const [language, setLanguage] = React.useState<string>('en');
   
@@ -169,7 +169,7 @@ export default function App() {
               exit={{ opacity: 0, y: -15 }}
               transition={{ duration: 0.15 }}
             >
-              <DocumentChecker />
+              <DocumentChecker initialServiceId={selectedServiceId} />
             </motion.div>
           )}
 

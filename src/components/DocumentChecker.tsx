@@ -3,8 +3,14 @@ import { motion, AnimatePresence } from 'motion/react';
 import { SERVICES } from '../data';
 import { Info, Check, Printer, FileText, Download, UploadCloud, Trash2, CheckCircle2, ChevronDown } from 'lucide-react';
 
-export default function DocumentChecker() {
-  const [selectedServiceId, setSelectedServiceId] = React.useState('passport-issuance');
+export default function DocumentChecker({ initialServiceId = 'passport-fresh' }: { initialServiceId?: string }) {
+  const [selectedServiceId, setSelectedServiceId] = React.useState(initialServiceId);
+
+  React.useEffect(() => {
+    if (SERVICES.some(service => service.id === initialServiceId)) {
+      setSelectedServiceId(initialServiceId);
+    }
+  }, [initialServiceId]);
 
   const selectedService = React.useMemo(() => {
     return SERVICES.find(s => s.id === selectedServiceId) || SERVICES[0];
@@ -12,8 +18,8 @@ export default function DocumentChecker() {
 
   // Record checklist checked state
   const [checkedDocs, setCheckedDocs] = React.useState<Record<string, boolean>>({
-    'passport-issuance-0': true,
-    'passport-issuance-1': false,
+    'passport-fresh-0': true,
+    'passport-fresh-1': false,
     'aadhaar-update-0': true
   });
 

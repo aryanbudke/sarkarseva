@@ -68,7 +68,7 @@ export default function ServiceGuide({ serviceId, setCurrentTab, onCheckDocument
                 <button 
                   onClick={() => {}}
                   className={`px-4 py-1 rounded-full font-sans text-xs font-semibold cursor-pointer ${
-                    service.difficulty === 'Easy' ? 'bg-white shadow-sm text-primary' : 'text-on-surface-variant'
+                    service.difficulty.toLowerCase() === 'easy' ? 'bg-white shadow-sm text-primary' : 'text-on-surface-variant'
                   }`}
                 >
                   Easy
@@ -76,7 +76,7 @@ export default function ServiceGuide({ serviceId, setCurrentTab, onCheckDocument
                 <button 
                   onClick={() => {}}
                   className={`px-4 py-1 rounded-full font-sans text-xs font-semibold cursor-pointer ${
-                    service.difficulty === 'Avg' ? 'bg-white shadow-sm text-primary' : 'text-on-surface-variant'
+                    service.difficulty.toLowerCase() === 'avg' || service.difficulty.toLowerCase() === 'medium' ? 'bg-white shadow-sm text-primary' : 'text-on-surface-variant'
                   }`}
                 >
                   Avg
@@ -84,7 +84,7 @@ export default function ServiceGuide({ serviceId, setCurrentTab, onCheckDocument
                 <button 
                   onClick={() => {}}
                   className={`px-4 py-1 rounded-full font-sans text-xs font-semibold cursor-pointer ${
-                    service.difficulty === 'Hard' ? 'bg-white shadow-sm text-primary' : 'text-on-surface-variant'
+                    service.difficulty.toLowerCase() === 'hard' ? 'bg-white shadow-sm text-primary' : 'text-on-surface-variant'
                   }`}
                 >
                   Hard
@@ -201,7 +201,7 @@ export default function ServiceGuide({ serviceId, setCurrentTab, onCheckDocument
                         }`}>
                           <h4 className="font-sans text-[15px] font-bold text-primary mb-1">{step.title}</h4>
                           <p className="font-sans text-sm text-on-surface-variant leading-relaxed">
-                            {step.description}
+                            {step.desc}
                           </p>
                         </div>
                       </div>
@@ -229,21 +229,21 @@ export default function ServiceGuide({ serviceId, setCurrentTab, onCheckDocument
                   </div>
 
                   <div className="flex flex-col gap-4">
-                    {service.documentsRequired.map((doc, idx) => (
+                    {service.documents.map((doc, idx) => (
                       <div key={idx} className="bg-white p-6 rounded-2xl border border-outline-variant/60 shadow-sm flex flex-col md:flex-row justify-between gap-4">
                         <div className="flex-grow">
                           <div className="flex items-center gap-2 mb-1.5">
                             <h4 className="font-sans text-base font-semibold text-primary">{doc.name}</h4>
                             <span className="bg-surface-container-high text-on-surface-variant px-2.5 py-0.5 rounded-full font-sans text-[10px] font-bold uppercase">
-                              {doc.type}
+                              {doc.mandatory ? 'Mandatory' : 'Conditional'}
                             </span>
                           </div>
                           <p className="font-sans text-sm text-on-surface-variant leading-relaxed mb-3">
-                            {doc.description}
+                            {doc.reason}
                           </p>
                           <div className="flex flex-wrap gap-1.5">
                             <span className="text-xs text-on-surface-variant self-center mr-1">Accepted:</span>
-                            {doc.acceptedList.map((acc, aIdx) => (
+                            {doc.formats.map((acc, aIdx) => (
                               <span key={aIdx} className="bg-background border border-outline-variant px-3 py-1 rounded-full font-sans text-xs text-primary">
                                 {acc}
                               </span>
@@ -270,10 +270,10 @@ export default function ServiceGuide({ serviceId, setCurrentTab, onCheckDocument
                       <div key={idx} className="bg-white p-6 rounded-2xl border border-surface-variant shadow-sm">
                         <h4 className="font-serif text-base font-bold text-primary mb-2 flex gap-2">
                           <HelpCircle className="w-5 h-5 text-secondary-container shrink-0 mt-0.5" />
-                          {faq.question}
+                          {faq.q}
                         </h4>
                         <p className="font-sans text-sm text-on-surface-variant leading-relaxed pl-7">
-                          {faq.answer}
+                          {faq.a}
                         </p>
                       </div>
                     ))

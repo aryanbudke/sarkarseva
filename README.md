@@ -26,6 +26,18 @@
 - 💬 **Conversational Markdown Rendering** — Responses rendered with `react-markdown` and GFM support for clear, structured answers
 - 🎨 **Modern, Animated UI** — Smooth interactions powered by `motion` (Framer Motion) and `lucide-react` icons
 - ⚡ **Fast, Server-Rendered Experience** — Built on Vite with an Express/TypeScript backend server
+- 🎯 **Explainable Scheme Matching** — Deterministic profile-based ranking with pass/fail reasons, confidence, and hard-fail protection
+- 🧭 **Application Guidance** — Scheme-specific preparation documents, numbered steps, and direct official-portal links
+
+## 🏆 Jury & Technical Documentation
+
+The complete [technical report](docs/TECHNICAL_REPORT.md) maps the product to the expected outcomes and includes Mermaid diagrams for the application flow, system architecture, matching engine, AI sequence, and deployment flow. It also contains a three-minute demonstration script and matching-analysis methodology.
+
+Run the repeatable matcher benchmark with:
+
+```bash
+npm run test:matcher
+```
 
 ## 🛠️ Tech Stack
 
@@ -137,4 +149,3 @@ Contributions are welcome! To contribute:
 4. Open a pull request
 
 Please open an issue first for major changes to discuss what you'd like to change.
-
