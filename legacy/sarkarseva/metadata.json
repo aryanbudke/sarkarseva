@@ -1,0 +1,6 @@
+{
+  "name": "SarkarSeva",
+  "description": "Government services simplified for every citizen with unified search, scheme finder, document checker, and service guides.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
