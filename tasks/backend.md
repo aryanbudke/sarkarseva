@@ -22,7 +22,7 @@ Each package: package.json named @yojana/<name>, src/index.ts exporting nothing 
 
 **Done when**
 - [ ] `pnpm install && pnpm test && pnpm -r build` succeed.
-- [ ] Lint fails if `packages/engine` imports React (add a test file that does, confirm failure, delete it).
+- [x] Lint fails if `packages/engine` imports React (add a test file that does, confirm failure, delete it).
 
 ---
 
