@@ -1,0 +1,209 @@
+[
+  {
+    "id": "aadhaar",
+    "name": {
+      "en": "Aadhaar Card Update",
+      "kn": "",
+      "hi": ""
+    },
+    "howToGet": {
+      "en": "Update your name, address, date of birth, gender, mobile number, or email ID on your Aadhaar card through the official UIDAI self-service portal. No visit to any office required for most updates. Steps: 1. Visit myAadhaar portal 2. Login with OTP 3. Select update type 4. Fill new details 5. Upload supporting document 6. Submit and note URN",
+      "kn": "",
+      "hi": ""
+    },
+    "portalUrl": "https://myaadhaar.uidai.gov.in",
+    "verify": true,
+    "_legacy": {
+      "department": "UIDAI",
+      "fee": "Free (online) / ₹50 (offline)",
+      "time": "3–5 working days",
+      "mode": "Online",
+      "lastUpdated": "May 2026",
+      "sourceNote": "From SarkarSeva services_data.ts — NOT verified. Check against official portal before use."
+    }
+  },
+  {
+    "id": "pan_card",
+    "name": {
+      "en": "New PAN Card Application",
+      "kn": "",
+      "hi": ""
+    },
+    "howToGet": {
+      "en": "Apply for a new Permanent Account Number (PAN) card online through NSDL or UTIITSL. PAN is mandatory for income tax filing, opening bank accounts, and financial transactions above ₹50,000. Steps: 1. Go to NSDL or UTIITSL portal 2. Fill Form 49A (Indian citizen) 3. Upload documents 4. Upload photo and signature 5. Pay the fee 6. e-Sign or send physical documents 7. Track your PAN",
+      "kn": "",
+      "hi": ""
+    },
+    "portalUrl": "https://www.onlineservices.nsdl.com/paam/endUserRegisterContact.html",
+    "verify": true,
+    "_legacy": {
+      "department": "Income Tax Department (NSDL/UTIITSL)",
+      "fee": "₹107 (Indian address) / ₹1,017 (foreign address)",
+      "time": "15–20 working days",
+      "mode": "Online",
+      "lastUpdated": "May 2026",
+      "sourceNote": "From SarkarSeva services_data.ts — NOT verified. Check against official portal before use."
+    }
+  },
+  {
+    "id": "voter_id",
+    "name": {
+      "en": "Voter ID (EPIC) — New or Correction",
+      "kn": "",
+      "hi": ""
+    },
+    "howToGet": {
+      "en": "Apply for a new Voter ID card (EPIC) or correct errors in your existing voter registration online through the National Voter's Service Portal (NVSP). You must be 18+ as on 1st January of the qualifying year. Steps: 1. Visit Voters Portal 2. Register / Login 3. Fill Form 6 (new registration) 4. Upload documents 5. Submit and track",
+      "kn": "",
+      "hi": ""
+    },
+    "portalUrl": "https://voters.eci.gov.in",
+    "verify": true,
+    "_legacy": {
+      "department": "Election Commission of India",
+      "fee": "Free",
+      "time": "30 days",
+      "mode": "Online",
+      "lastUpdated": "May 2026",
+      "sourceNote": "From SarkarSeva services_data.ts — NOT verified. Check against official portal before use."
+    }
+  },
+  {
+    "id": "digilocker",
+    "name": {
+      "en": "DigiLocker Account Setup",
+      "kn": "",
+      "hi": ""
+    },
+    "howToGet": {
+      "en": "DigiLocker is a government-issued digital document wallet. Store and access your Aadhaar, PAN, driving licence, marksheets, and more digitally. Documents from DigiLocker are legally equivalent to originals. Steps: 1. Visit DigiLocker 2. Sign up with mobile number 3. Link Aadhaar 4. Access your documents 5. Share documents",
+      "kn": "",
+      "hi": ""
+    },
+    "portalUrl": "https://digilocker.gov.in",
+    "verify": true,
+    "_legacy": {
+      "department": "Ministry of Electronics & IT (MeitY)",
+      "fee": "Free",
+      "time": "Instant",
+      "mode": "Online",
+      "lastUpdated": "May 2026",
+      "sourceNote": "From SarkarSeva services_data.ts — NOT verified. Check against official portal before use."
+    }
+  },
+  {
+    "id": "income_certificate",
+    "name": {
+      "en": "Income Certificate",
+      "kn": "",
+      "hi": ""
+    },
+    "howToGet": {
+      "en": "An Income Certificate issued by your state government certifies your family's annual income. It is required for availing EWS reservations, scholarships, BPL ration cards, fee concessions, and many government schemes. Apply at your District Collector's office, Tehsil, or state e-District portal. Steps: 1. Find your state's e-District portal 2. Register and fill application 3. Upload documents 4. Submit and get acknowledgement 5. Verification by Revenue Officer 6. Download or collect certificate",
+      "kn": "",
+      "hi": ""
+    },
+    "portalUrl": "https://services.india.gov.in/service/listing?cat_id=11&ln=en",
+    "verify": true,
+    "_legacy": {
+      "department": "State Revenue Department / Tehsil Office",
+      "fee": "Free (most states) / ₹20–₹50 (some states)",
+      "time": "15–30 days",
+      "mode": "Online (state portal) or Offline (Tehsil)",
+      "lastUpdated": "May 2026",
+      "sourceNote": "From SarkarSeva services_data.ts — NOT verified. Check against official portal before use."
+    }
+  },
+  {
+    "id": "caste_certificate",
+    "name": {
+      "en": "Caste Certificate (SC/ST/OBC)",
+      "kn": "",
+      "hi": ""
+    },
+    "howToGet": {
+      "en": "A Caste Certificate issued by the state government certifies that you belong to a Scheduled Caste (SC), Scheduled Tribe (ST), or Other Backward Class (OBC). It is required for reservations in education and jobs, scholarships, and various government schemes. Steps: 1. Visit state e-District portal 2. Fill application form 3. Submit documents 4. Collect certificate",
+      "kn": "",
+      "hi": ""
+    },
+    "portalUrl": "https://services.india.gov.in",
+    "verify": true,
+    "_legacy": {
+      "department": "State Revenue Department / Tehsil Office",
+      "fee": "Free",
+      "time": "15–30 days",
+      "mode": "Online (state portal) or Offline",
+      "lastUpdated": "May 2026",
+      "sourceNote": "From SarkarSeva services_data.ts — NOT verified. Check against official portal before use."
+    }
+  },
+  {
+    "id": "domicile_certificate",
+    "name": {
+      "en": "Domicile / Residence Certificate",
+      "kn": "",
+      "hi": ""
+    },
+    "howToGet": {
+      "en": "A Domicile Certificate certifies that you are a permanent resident of a particular state. It is required for state government jobs, admission to state universities, OBC certificates (in some states), and state-specific scholarship schemes. Steps: 1. Visit state portal 2. Fill domicile application 3. Upload documents 4. Receive certificate",
+      "kn": "",
+      "hi": ""
+    },
+    "portalUrl": "https://services.india.gov.in",
+    "verify": true,
+    "_legacy": {
+      "department": "State Revenue Department / Tehsil Office",
+      "fee": "Free to ₹50",
+      "time": "15 days",
+      "mode": "Online (state portal)",
+      "lastUpdated": "May 2026",
+      "sourceNote": "From SarkarSeva services_data.ts — NOT verified. Check against official portal before use."
+    }
+  },
+  {
+    "id": "birth_certificate",
+    "name": {
+      "en": "Birth Certificate",
+      "kn": "",
+      "hi": ""
+    },
+    "howToGet": {
+      "en": "A Birth Certificate is the most fundamental government document. It is issued by the Civil Registration System under the Office of the Registrar General of India. Register a birth within 21 days to get a certificate for free; after 21 days, a late fee and supporting documents are required. Steps: 1. Hospital / Nursing Home registration 2. Apply on CRS portal (home births) 3. Submit documents and pay fee 4. Download digital certificate",
+      "kn": "",
+      "hi": ""
+    },
+    "portalUrl": "https://crsorgi.gov.in",
+    "verify": true,
+    "_legacy": {
+      "department": "Municipal Corporation / Gram Panchayat",
+      "fee": "₹50–₹100",
+      "time": "7 days",
+      "mode": "Online (crsorgi.gov.in)",
+      "lastUpdated": "May 2026",
+      "sourceNote": "From SarkarSeva services_data.ts — NOT verified. Check against official portal before use."
+    }
+  },
+  {
+    "id": "eshram_card",
+    "name": {
+      "en": "e-Shram Card Registration",
+      "kn": "",
+      "hi": ""
+    },
+    "howToGet": {
+      "en": "e-Shram is the national database of unorganised workers. Registration gives a 12-digit UAN (Universal Account Number) and ₹2 lakh accident insurance free under PMSBY. Workers in construction, agriculture, domestic work, street vending, auto-driving, and similar informal occupations must register. Steps: 1. Go to e-Shram portal 2. Enter Aadhaar and bank details 3. Fill personal and work details 4. Submit and download e-Shram card",
+      "kn": "",
+      "hi": ""
+    },
+    "portalUrl": "https://eshram.gov.in",
+    "verify": true,
+    "_legacy": {
+      "department": "Ministry of Labour & Employment",
+      "fee": "Free",
+      "time": "Instant",
+      "mode": "Online",
+      "lastUpdated": "May 2026",
+      "sourceNote": "From SarkarSeva services_data.ts — NOT verified. Check against official portal before use."
+    }
+  }
+]
